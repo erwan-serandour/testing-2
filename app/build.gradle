@@ -5,8 +5,8 @@ plugins {
 
 sonar {
     properties {
-        property "sonar.projectKey", "SE-II-group-new_testing-2"
-        property "sonar.organization", "se-ii-group-new"
+        property "sonar.projectKey", "erwan-serandour_testing-2"
+        property "sonar.organization", "erwan-serandour"
         property "sonar.host.url", "https://sonarcloud.io"
     }
 }
