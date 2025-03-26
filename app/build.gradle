@@ -58,6 +58,7 @@ task logClasspath {
     doLast {
         try {
             // Attempt to load the class
+            println(Class.getClassLoader().toString())
             def clazz = Class.forName("org.apache.commons.compress.archivers.tar.TarArchiveInputStream")
             def location = clazz.protectionDomain?.codeSource?.location
             if (location) {
@@ -69,6 +70,19 @@ task logClasspath {
             println "Methods in org.apache.commons.compress.archivers.tar.TarArchiveInputStream:"
             clazz.declaredMethods.each { method ->
                 println "- ${method.name}(${method.parameterTypes*.simpleName.join(', ')})"
+            }
+
+            byte[] dummyTarData = new byte[512] // A single empty tar block (512 bytes)
+            new ByteArrayInputStream(dummyTarData).withCloseable { byteArrayInputStream ->
+                new BufferedInputStream(byteArrayInputStream).withCloseable { bufferedInputStream ->
+                    new org.apache.commons.compress.archivers.tar.TarArchiveInputStream(bufferedInputStream).withCloseable { tarArchiveInputStream ->
+                        org.apache.commons.compress.archivers.tar.TarArchiveEntry entry
+                        println "Read entry"
+                        while ((entry = tarArchiveInputStream.getNextEntry()) != null) {
+                            println "Read entry: ${entry.getName()}"
+                        }
+                    }
+                }
             }
         } catch (ClassNotFoundException e) {
             println "Class org.apache.commons.compress.archivers.tar.TarArchiveInputStream not found in the classpath."
