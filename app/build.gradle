@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    id "org.sonarqube" version "5.1.0.4882"
+    id "org.sonarqube" version "6.0.1.5171"
 }
 
 sonar {
@@ -38,7 +38,6 @@ android {
 }
 
 dependencies {
-
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
@@ -46,4 +45,30 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+}
+
+
+task logClasspath {
+    doLast {
+        try {
+            // Attempt to load the class
+            def clazz = Class.forName("org.apache.commons.compress.archivers.tar.TarArchiveInputStream")
+            def location = clazz.protectionDomain?.codeSource?.location
+            if (location) {
+                println "Class org.apache.commons.compress.archivers.tar.TarArchiveInputStream is loaded from: $location"
+            } else {
+                println "Class org.apache.commons.compress.archivers.tar.TarArchiveInputStream is loaded, but location is unknown."
+            }
+        } catch (ClassNotFoundException e) {
+            println "Class org.apache.commons.compress.archivers.tar.TarArchiveInputStream not found in the classpath."
+        }
+    }
+}
+
+tasks.named("build").configure {
+    finalizedBy logClasspath
+}
+
+tasks.named("sonarqube").configure {
+    dependsOn logClasspath
 }
