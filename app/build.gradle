@@ -75,6 +75,17 @@ task logClasspath {
             def androidHome = System.getenv("ANDROID_HOME")
             if (androidHome) {
                 println "ANDROID_HOME is set to: $androidHome"
+                def platformsDir = new File(androidHome, "platforms")
+                if (platformsDir.exists() && platformsDir.isDirectory()) {
+                    println "Installed platforms in ANDROID_HOME:"
+                    platformsDir.listFiles()?.each { platform ->
+                        if (platform.isDirectory()) {
+                            println "- ${platform.name}"
+                        }
+                    }
+                } else {
+                    println "No platforms directory found in ANDROID_HOME."
+                }
             } else {
                 println "ANDROID_HOME is not set."
             }
