@@ -108,9 +108,9 @@ task logClasspath {
     }
 }
 
-tasks.named("build").configure {
-    finalizedBy logClasspath
-}
+//tasks.named("build").configure {
+//    finalizedBy logClasspath
+//}
 
 tasks.named("sonar").configure {
     dependsOn logClasspath

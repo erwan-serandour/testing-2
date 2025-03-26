@@ -33,4 +33,8 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build logClasspath sonar --info --stacktrace
+        run: ./gradlew build
+      - name: analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew logClasspath sonar --info --stacktrace
