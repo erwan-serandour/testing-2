@@ -59,6 +59,11 @@ task logClasspath {
             } else {
                 println "Class org.apache.commons.compress.archivers.tar.TarArchiveInputStream is loaded, but location is unknown."
             }
+
+            println "Methods in org.apache.commons.compress.archivers.tar.TarArchiveInputStream:"
+            clazz.declaredMethods.each { method ->
+                println "- ${method.name}(${method.parameterTypes*.simpleName.join(', ')})"
+            }
         } catch (ClassNotFoundException e) {
             println "Class org.apache.commons.compress.archivers.tar.TarArchiveInputStream not found in the classpath."
         }
