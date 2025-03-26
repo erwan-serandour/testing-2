@@ -72,6 +72,13 @@ task logClasspath {
                 println "- ${method.name}(${method.parameterTypes*.simpleName.join(', ')})"
             }
 
+            def androidHome = System.getenv("ANDROID_HOME")
+            if (androidHome) {
+                println "ANDROID_HOME is set to: $androidHome"
+            } else {
+                println "ANDROID_HOME is not set."
+            }
+
             byte[] dummyTarData = new byte[512] // A single empty tar block (512 bytes)
             new ByteArrayInputStream(dummyTarData).withCloseable { byteArrayInputStream ->
                 new BufferedInputStream(byteArrayInputStream).withCloseable { bufferedInputStream ->
