@@ -35,4 +35,4 @@ jobs:
       - name: analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew logClasspath sonar --info --stacktrace
+        run: ./gradlew logClasspath sonar -Dsonar.scanner.skipJreProvisioning=true --info --stacktrace
